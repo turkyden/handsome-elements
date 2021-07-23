@@ -1,3 +1,7 @@
+::-webkit-scrollbar, ::-webkit-scrollbar-thumb, ::-webkit-scrollbar-track {
+  display: none;
+}
+
 .split {
   display: flex;
   flex-direction: row;
