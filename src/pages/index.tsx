@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Frame from 'react-frame-component';
 import Split from 'react-split';
@@ -6,22 +6,23 @@ import Editor from '@monaco-editor/react';
 import { Resizable } from 're-resizable';
 import prettier from 'prettier/standalone';
 import parserHTML from 'prettier/parser-html';
-import BlockA from '../materials/block/a';
-import getThumbnails from '../thumbnails';
+import getThumbnails from '@/thumbnails';
+import getMaterials from '@/materials';
 
 import './index.css';
 
-const initailDatas = [
-  {
-    title: '',
-    category: 'block',
-    code: prettier.format(ReactDOMServer.renderToStaticMarkup(<BlockA />), {
+const getCode = (category: string, componentName: string): string => {
+  return prettier.format(
+    ReactDOMServer.renderToStaticMarkup(
+      getMaterials()[category][componentName],
+    ),
+    {
       semi: false,
       parser: 'html',
       plugins: [parserHTML],
-    }),
-  },
-];
+    },
+  );
+};
 
 export default function IndexPage() {
   const [size, setSize] = useState({
@@ -31,17 +32,13 @@ export default function IndexPage() {
 
   const [headerVisible, setHeaderVisible] = useState(true);
 
-  const [datas, setDatas] = useState(initailDatas);
+  const [category, setCategory] = useState('Block');
 
-  const [index, setIndex] = useState(0);
+  const [componentName, setComponentName] = useState('BlockA');
 
-  const onChange = (code: string) => {
-    setDatas(
-      datas.map((v, i) => {
-        return i === index ? { ...v, code } : v;
-      }),
-    );
-  };
+  const [code, setCode] = useState(getCode(category, componentName));
+
+  const onChange = (code: string) => setCode(code);
 
   const onResizeStop = (e, direction, ref, d) => {
     setSize({
@@ -50,10 +47,16 @@ export default function IndexPage() {
     });
   };
 
+  const onClick = (category, componentName) => {
+    setCategory(category);
+    setComponentName(componentName);
+    setCode(getCode(category, componentName));
+  };
+
   return (
     <div className="w-screen h-screen">
-      <div className="w-full h-10 bg-blue-500 absolute top-0 left-0 z-50 flex justify-between items-center px-4">
-        <div className="text-xl text-white">Handsome Elements</div>
+      <div className="w-full h-10 bg-blue-500 absolute top-0 left-0 z-50 flex justify-between items-center px-4 shadow">
+        <div className="text-xl text-white font-mono">💠 Handsome Elements</div>
 
         <div className="flex items-center">
           <div className="bg-blue-600 pr-2">
@@ -110,19 +113,18 @@ export default function IndexPage() {
             {Object.entries(getThumbnails()).map(([category, elements], i) => (
               <>
                 <div className="text-xl">{category}</div>
-                <div>
-                  {Array.from(
-                    Object.entries(elements),
-                    ([componentName, element], i) => (
-                      <div className="py-2">
-                        {/* <img
-                        className="w-full rounded shadow-lg"
-                        src="/assets/block.svg"
-                      /> */}
-                        {element}
-                      </div>
-                    ),
-                  )}
+                <div className="shadow-xl rounded">
+                  {Array.from(Object.entries(elements), ([com, element], i) => (
+                    <div
+                      className="my-2 rounded relative cursor-pointer"
+                      onClick={onClick.bind(this, category, com)}
+                    >
+                      {element}
+                      {componentName === com && (
+                        <div className="absolute rounded border-blue-400 border-solid border-2 top-0 left-0 w-full h-full bg-blue-100 bg-opacity-25" />
+                      )}
+                    </div>
+                  ))}
                 </div>
               </>
             ))}
@@ -160,14 +162,14 @@ export default function IndexPage() {
                   </>
                 }
               >
-                <div dangerouslySetInnerHTML={{ __html: datas[index].code }} />
+                <div dangerouslySetInnerHTML={{ __html: code }} />
               </Frame>
             </Resizable>
           </div>
           <Editor
             height="90vh"
             defaultLanguage="html"
-            defaultValue={datas[index].code}
+            value={code}
             onChange={onChange}
           />
         </Split>
