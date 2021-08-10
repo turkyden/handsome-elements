@@ -46,9 +46,7 @@ export default function ({
         {list.map((v, k) => (
           <div className={`w-1/${column} py-4 my-2`}>
             <a
-              className={`w-full h-full cursor-pointer flex justify-center py-1 border-solid border-0 border-gray-200 ${
-                (k + 1) % column != 0 ? 'border-r' : ''
-              } `}
+              className="w-full h-full cursor-pointer flex justify-center py-1"
               href={v.href}
               target="_blank"
             >

@@ -8,6 +8,7 @@ import prettier from 'prettier/standalone';
 import parserHTML from 'prettier/parser-html';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useSessionStorageState } from 'ahooks';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { Modal, message } from 'antd';
 import getThumbnails from '@/thumbnails';
 import getMaterials from '@/materials';
@@ -44,6 +45,14 @@ export default function IndexPage() {
   const [code, setCode] = useState(getCode(category, componentName));
 
   const [donation, setDonation] = useSessionStorageState('user-message', '0');
+
+  useHotkeys('up', () => {
+    message.success('Up');
+  });
+
+  useHotkeys('down', () => {
+    message.success('Down');
+  });
 
   const onChange = (code: string) => setCode(code);
 
@@ -91,8 +100,8 @@ export default function IndexPage() {
         okText: '下次再说',
         maskClosable: true,
       });
-    } else {
       setDonation('1');
+    } else {
       message.success('Copyed !');
     }
   };
@@ -118,38 +127,40 @@ export default function IndexPage() {
           </div>
 
           <CopyToClipboard text={code} onCopy={onCopy}>
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="#fff"
-              className="stroke-current cursor-pointer transform group-hover:rotate-[-4deg] transition"
-            >
-              <path
-                d="M12.9975 10.7499L11.7475 10.7499C10.6429 10.7499 9.74747 11.6453 9.74747 12.7499L9.74747 21.2499C9.74747 22.3544 10.6429 23.2499 11.7475 23.2499L20.2475 23.2499C21.352 23.2499 22.2475 22.3544 22.2475 21.2499L22.2475 12.7499C22.2475 11.6453 21.352 10.7499 20.2475 10.7499L18.9975 10.7499"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M17.9975 12.2499L13.9975 12.2499C13.4452 12.2499 12.9975 11.8022 12.9975 11.2499L12.9975 9.74988C12.9975 9.19759 13.4452 8.74988 13.9975 8.74988L17.9975 8.74988C18.5498 8.74988 18.9975 9.19759 18.9975 9.74988L18.9975 11.2499C18.9975 11.8022 18.5498 12.2499 17.9975 12.2499Z"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M13.7475 16.2499L18.2475 16.2499"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M13.7475 19.2499L18.2475 19.2499"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-            </svg>
+            <div id="copy_to_clipboard">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 32 32"
+                fill="#fff"
+                className="stroke-current cursor-pointer transform group-hover:rotate-[-4deg] transition"
+              >
+                <path
+                  d="M12.9975 10.7499L11.7475 10.7499C10.6429 10.7499 9.74747 11.6453 9.74747 12.7499L9.74747 21.2499C9.74747 22.3544 10.6429 23.2499 11.7475 23.2499L20.2475 23.2499C21.352 23.2499 22.2475 22.3544 22.2475 21.2499L22.2475 12.7499C22.2475 11.6453 21.352 10.7499 20.2475 10.7499L18.9975 10.7499"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <path
+                  d="M17.9975 12.2499L13.9975 12.2499C13.4452 12.2499 12.9975 11.8022 12.9975 11.2499L12.9975 9.74988C12.9975 9.19759 13.4452 8.74988 13.9975 8.74988L17.9975 8.74988C18.5498 8.74988 18.9975 9.19759 18.9975 9.74988L18.9975 11.2499C18.9975 11.8022 18.5498 12.2499 17.9975 12.2499Z"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <path
+                  d="M13.7475 16.2499L18.2475 16.2499"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <path
+                  d="M13.7475 19.2499L18.2475 19.2499"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+            </div>
           </CopyToClipboard>
         </div>
       </div>
@@ -220,6 +231,18 @@ export default function IndexPage() {
             defaultLanguage="html"
             value={code}
             onChange={onChange}
+            onMount={(editor, monaco) => {
+              console.log(editor, monaco);
+              editor.addCommand(
+                monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_C,
+                () => {
+                  document.querySelector('#copy_to_clipboard')?.click();
+                },
+              );
+              editor.onContextMenu((e, a) => {
+                console.log(e, a);
+              });
+            }}
           />
         </Split>
       </div>
