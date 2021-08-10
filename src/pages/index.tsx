@@ -43,10 +43,7 @@ export default function IndexPage() {
 
   const [code, setCode] = useState(getCode(category, componentName));
 
-  const [donation, seDonation] = useSessionStorageState(
-    'handsome-elements-donate',
-    true,
-  );
+  const [donation, setDonation] = useSessionStorageState('user-message', '0');
 
   const onChange = (code: string) => setCode(code);
 
@@ -64,7 +61,7 @@ export default function IndexPage() {
   };
 
   const onCopy = (e: Event) => {
-    if (donation) {
+    if (donation !== '1') {
       Modal.info({
         title: '🎉 有你支持，我们会做的更好！',
         icon: null,
@@ -95,7 +92,7 @@ export default function IndexPage() {
         maskClosable: true,
       });
     } else {
-      seDonation(false);
+      setDonation('1');
       message.success('Copyed !');
     }
   };
