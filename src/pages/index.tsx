@@ -7,7 +7,8 @@ import { Resizable } from 're-resizable';
 import prettier from 'prettier/standalone';
 import parserHTML from 'prettier/parser-html';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { message } from 'antd';
+import { useSessionStorageState } from 'ahooks';
+import { Modal, message } from 'antd';
 import getThumbnails from '@/thumbnails';
 import getMaterials from '@/materials';
 
@@ -42,6 +43,11 @@ export default function IndexPage() {
 
   const [code, setCode] = useState(getCode(category, componentName));
 
+  const [donation, seDonation] = useSessionStorageState(
+    'handsome-elements-donate',
+    true,
+  );
+
   const onChange = (code: string) => setCode(code);
 
   const onResizeStop = (e, direction, ref, d) => {
@@ -55,6 +61,43 @@ export default function IndexPage() {
     setCategory(category);
     setComponentName(componentName);
     setCode(getCode(category, componentName));
+  };
+
+  const onCopy = (e: Event) => {
+    if (donation) {
+      Modal.info({
+        title: '🎉 有你支持，我们会做的更好！',
+        icon: null,
+        content: (
+          <div className="">
+            <div className="pt-6"># 方式 1</div>
+            <div className="px-4 text-gray-500 py-2 flex items-center contents-center">
+              <a
+                href="https://github.com/Turkyden/handsome-elements"
+                target="_blank"
+              >
+                <img
+                  className=""
+                  alt="GitHub Repo stars"
+                  src="https://img.shields.io/github/stars/Turkyden/handsome-elements?style=social"
+                />
+              </a>
+              <div className="pl-4">帮忙点个 Star ⭐</div>
+            </div>
+            <div className="pt-6"># 方式 2</div>
+            <img
+              className="w-48"
+              src="https://watermark-pro.vercel.app/static/wechat.22a540b9.png"
+            />
+          </div>
+        ),
+        okText: '下次再说',
+        maskClosable: true,
+      });
+    } else {
+      seDonation(false);
+      message.success('Copyed !');
+    }
   };
 
   return (
@@ -77,10 +120,7 @@ export default function IndexPage() {
             </select>
           </div>
 
-          <CopyToClipboard
-            text={code}
-            onCopy={() => message.success('Copyed !')}
-          >
+          <CopyToClipboard text={code} onCopy={onCopy}>
             <svg
               width="32"
               height="32"
@@ -139,9 +179,9 @@ export default function IndexPage() {
             ))}
           </div>
         </div>
-        <Split className="w-full split pt-10" minSize={[500, 400]}>
-          <div className="flex justify-center items-center bg-gray-100 relative overflow-auto | pattern-checks-sm">
-            <div className="absolute top-0 left-0 w-full flex justify-center items-center py-2">
+        <Split className="w-full split pt-10 " minSize={[500, 400]}>
+          <div className="flex justify-center items-center bg-gray-100 relative overflow-auto | pattern-checks-sm text-gray-300">
+            <div className="absolute top-0 left-0 w-full flex justify-center items-center py-2 text-gray-500">
               <input
                 className="w-12 h-6 text-center border-0"
                 value={size.width}
@@ -158,7 +198,7 @@ export default function IndexPage() {
               onResizeStop={onResizeStop}
             >
               {headerVisible && (
-                <div className="py-2 px-4 border-0 border-solid border-b border-gray-100 font-bold">
+                <div className="py-2 px-4 border-0 border-solid border-b border-gray-100 font-bold text-gray-700">
                   Handsome Elements
                 </div>
               )}
@@ -166,12 +206,11 @@ export default function IndexPage() {
                 className="w-full h-full border-0 overflow-hidden"
                 head={
                   <>
-                    <link
+                    {/* <link
                       rel="stylesheet"
                       href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
-                    />
-                    <style>{`
-                      body{ overflow: hidden }`}</style>
+                    />*/}
+                    <style>{`body{ font-size: 12px }`}</style>
                   </>
                 }
               >

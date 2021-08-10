@@ -42,7 +42,7 @@ export default function () {
         scoped
         dangerouslySetInnerHTML={{
           __html: `
-        @import url("https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css")
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css");
       `,
         }}
       />
