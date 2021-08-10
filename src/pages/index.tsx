@@ -127,7 +127,10 @@ export default function IndexPage() {
           </div>
 
           <CopyToClipboard text={code} onCopy={onCopy}>
-            <div id="copy_to_clipboard">
+            <div
+              className="flex flex-col items-center justify-center"
+              id="copy_to_clipboard"
+            >
               <svg
                 width="32"
                 height="32"
@@ -207,7 +210,7 @@ export default function IndexPage() {
             >
               {headerVisible && (
                 <div className="py-2 px-4 border-0 border-solid border-b border-gray-100 font-bold text-gray-700">
-                  Handsome Elements
+                  {category} - {componentName}
                 </div>
               )}
               <Frame
