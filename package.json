@@ -22,8 +22,11 @@
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
     "@monaco-editor/react": "^4.2.1",
+    "antd": "^4.16.11",
+    "pattern.css": "^1.0.0",
     "re-resizable": "^6.9.0",
     "react": "17.x",
+    "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "17.x",
     "react-frame-component": "^5.1.0",
     "react-split": "^2.0.11",

@@ -6,10 +6,14 @@ import Editor from '@monaco-editor/react';
 import { Resizable } from 're-resizable';
 import prettier from 'prettier/standalone';
 import parserHTML from 'prettier/parser-html';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { message } from 'antd';
 import getThumbnails from '@/thumbnails';
 import getMaterials from '@/materials';
 
+import 'antd/dist/antd.css';
 import './index.css';
+import 'pattern.css/dist/pattern.css';
 
 const getCode = (category: string, componentName: string): string => {
   return prettier.format(
@@ -73,38 +77,43 @@ export default function IndexPage() {
             </select>
           </div>
 
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="#fff"
-            className="stroke-current cursor-pointer transform group-hover:rotate-[-4deg] transition"
+          <CopyToClipboard
+            text={code}
+            onCopy={() => message.success('Copyed !')}
           >
-            <path
-              d="M12.9975 10.7499L11.7475 10.7499C10.6429 10.7499 9.74747 11.6453 9.74747 12.7499L9.74747 21.2499C9.74747 22.3544 10.6429 23.2499 11.7475 23.2499L20.2475 23.2499C21.352 23.2499 22.2475 22.3544 22.2475 21.2499L22.2475 12.7499C22.2475 11.6453 21.352 10.7499 20.2475 10.7499L18.9975 10.7499"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-            <path
-              d="M17.9975 12.2499L13.9975 12.2499C13.4452 12.2499 12.9975 11.8022 12.9975 11.2499L12.9975 9.74988C12.9975 9.19759 13.4452 8.74988 13.9975 8.74988L17.9975 8.74988C18.5498 8.74988 18.9975 9.19759 18.9975 9.74988L18.9975 11.2499C18.9975 11.8022 18.5498 12.2499 17.9975 12.2499Z"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-            <path
-              d="M13.7475 16.2499L18.2475 16.2499"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-            <path
-              d="M13.7475 19.2499L18.2475 19.2499"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-          </svg>
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="#fff"
+              className="stroke-current cursor-pointer transform group-hover:rotate-[-4deg] transition"
+            >
+              <path
+                d="M12.9975 10.7499L11.7475 10.7499C10.6429 10.7499 9.74747 11.6453 9.74747 12.7499L9.74747 21.2499C9.74747 22.3544 10.6429 23.2499 11.7475 23.2499L20.2475 23.2499C21.352 23.2499 22.2475 22.3544 22.2475 21.2499L22.2475 12.7499C22.2475 11.6453 21.352 10.7499 20.2475 10.7499L18.9975 10.7499"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M17.9975 12.2499L13.9975 12.2499C13.4452 12.2499 12.9975 11.8022 12.9975 11.2499L12.9975 9.74988C12.9975 9.19759 13.4452 8.74988 13.9975 8.74988L17.9975 8.74988C18.5498 8.74988 18.9975 9.19759 18.9975 9.74988L18.9975 11.2499C18.9975 11.8022 18.5498 12.2499 17.9975 12.2499Z"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M13.7475 16.2499L18.2475 16.2499"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M13.7475 19.2499L18.2475 19.2499"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </CopyToClipboard>
         </div>
       </div>
       <div className="w-full h-screen h-s flex">
@@ -131,7 +140,7 @@ export default function IndexPage() {
           </div>
         </div>
         <Split className="w-full split pt-10" minSize={[500, 400]}>
-          <div className="flex justify-center items-center bg-gray-100 relative overflow-auto">
+          <div className="flex justify-center items-center bg-gray-100 relative overflow-auto | pattern-checks-sm">
             <div className="absolute top-0 left-0 w-full flex justify-center items-center py-2">
               <input
                 className="w-12 h-6 text-center border-0"
@@ -157,6 +166,10 @@ export default function IndexPage() {
                 className="w-full h-full border-0 overflow-hidden"
                 head={
                   <>
+                    <link
+                      rel="stylesheet"
+                      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
+                    />
                     <style>{`
                       body{ overflow: hidden }`}</style>
                   </>
