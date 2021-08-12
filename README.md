@@ -23,4 +23,4 @@ $ yarn start
 
 ## Reffence
 
-[[1] csslayout](https://github.com/phuoc-ng/csslayout) A collection of popular layouts and patterns made with CSS.
+[[1] csslayout - A collection of popular layouts and patterns made with CSS.](https://github.com/phuoc-ng/csslayout)
