@@ -24,3 +24,5 @@ $ yarn start
 ## Reffence
 
 [[1] csslayout - A collection of popular layouts and patterns made with CSS.](https://github.com/phuoc-ng/csslayout)
+
+[[2] tailblocks - Ready-to-use Tailwind CSS blocks.](https://github.com/mertJF/tailblocks)
