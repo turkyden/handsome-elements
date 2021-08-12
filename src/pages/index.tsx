@@ -98,7 +98,6 @@ export default function IndexPage() {
           </div>
         ),
         okText: '下次再说',
-        maskClosable: true,
       });
       setDonation('1');
     } else {
@@ -108,12 +107,27 @@ export default function IndexPage() {
 
   return (
     <div className="w-screen h-screen">
-      <div className="w-full h-10 bg-blue-500 absolute top-0 left-0 z-50 flex justify-between items-center px-4 shadow">
-        <div className="text-xl text-white font-mono">💠 Handsome Elements</div>
+      <div className="w-full h-10 bg-blue-500 absolute top-0 left-0 z-50 flex justify-between items-center pl-4 shadow">
+        <div className="flex justify-center items-center">
+          <div className="text-xl text-white font-mono">
+            💠 Handsome Elements
+          </div>
+          <a
+            className="mx-4"
+            href="https://github.com/Turkyden/handsome-elements"
+            target="_blank"
+          >
+            <img
+              className=""
+              alt="GitHub Repo stars"
+              src="https://img.shields.io/github/stars/Turkyden/handsome-elements?style=social"
+            />
+          </a>
+        </div>
 
         <div className="flex items-center">
-          <div className="bg-blue-600 pr-2">
-            <select className="bg-transparent px-4 text-white rounded-lg border-0 form-select p-0 pl-3.5 pr-[1.875rem] h-9 w-full sm:text-sm font-medium focus:shadow-none focus-visible:ring-2 focus-visible:ring-teal-500">
+          <div className="bg-blue-600">
+            <select className="bg-transparent px-4 text-white border-0 form-select p-0 pl-3.5 pr-[1.875rem] h-9 w-full sm:text-sm font-medium focus:shadow-none focus-visible:ring-2 focus-visible:ring-teal-500">
               <option className="text-gray-900" value="html">
                 HTML
               </option>
@@ -168,15 +182,15 @@ export default function IndexPage() {
         </div>
       </div>
       <div className="w-full h-screen h-s flex">
-        <div className="w-48 bg-gray-200 pt-10 overflow-auto">
+        <div className="w-48 bg-gray-200 pt-10 overflow-auto shadow-2xl">
           <div className="p-4">
             {Object.entries(getThumbnails()).map(([category, elements], i) => (
               <>
                 <div className="text-xl">{category}</div>
-                <div className="shadow-xl rounded">
+                <div className="">
                   {Array.from(Object.entries(elements), ([com, element], i) => (
                     <div
-                      className="my-2 rounded relative cursor-pointer"
+                      className="my-2 rounded shadow-xl relative cursor-pointer"
                       onClick={onClick.bind(this, category, com)}
                     >
                       {element}
